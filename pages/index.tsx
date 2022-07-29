@@ -1,10 +1,25 @@
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
+import * as S from "../src/styles";
+
+//hooks
+import { useTranslations } from "next-intl";
+
+//components
 import Head from "next/head";
 import Image from "next/image";
 
-import * as S from "../src/styles";
+//this function is necessary to get the translations in every single page
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      messages: (await import(`../public/locales/${locale}.json`)).default,
+    },
+  };
+};
 
 const Home: NextPage = () => {
+  const t = useTranslations("common");
+
   return (
     <S.Container>
       <Head>
@@ -15,34 +30,32 @@ const Home: NextPage = () => {
 
       <S.Main>
         <S.Title>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          {t("welcome")} <a href="https://nextjs.org">{t("nextjs")}!</a>
         </S.Title>
 
         <S.Description>
-          Get started by editing <S.Code>pages/index.tsx</S.Code>
+          {t("get_started")} <S.Code>pages/index.tsx</S.Code>
         </S.Description>
 
         <S.Grid>
           <S.Card href="https://nextjs.org/docs">
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
+            <h2>{t("documentation")} &rarr;</h2>
+            <p>{t("documentation_description")}</p>
           </S.Card>
 
           <S.Card href="https://nextjs.org/learn">
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
+            <h2>{t("learn")} &rarr;</h2>
+            <p>{t("learn_description")}</p>
           </S.Card>
 
           <S.Card href="https://github.com/vercel/next.js/tree/canary/examples">
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
+            <h2>{t("exemples")} &rarr;</h2>
+            <p>{t("exemples_description")}</p>
           </S.Card>
 
           <S.Card href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app">
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
+            <h2>{t("deploy")} &rarr;</h2>
+            <p>{t("deploy_description")}</p>
           </S.Card>
         </S.Grid>
       </S.Main>
